@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:tarea6app/apiservices/generoapiservice.dart';
 
@@ -12,17 +11,23 @@ class GeneroPage extends StatefulWidget {
 }
 
 class _GeneroPageState extends State<GeneroPage> {
-
-final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   Color _appBarColor = Colors.orange;
   Color _backgroundColor = Colors.orange[100]!;
   String _gender = '';
   double _probability = 0.0;
+  bool _isLoading = false;
 
   final GeneroApiService _apiService = GeneroApiService();
 
   Future<void> _fetchGender(String name) async {
+    setState(() {
+      _isLoading = true;
+      _gender = '';
+      _probability = 0.0;
+    });
+
     try {
       final data = await _apiService.fetchGender(name);
       String gender = data['gender'];
@@ -38,9 +43,11 @@ final TextEditingController _controller = TextEditingController();
           _gender = 'Femenino';
         }
         _probability = probability;
+        _isLoading = false;
       });
     } catch (e) {
       setState(() {
+        _isLoading = false;
         _gender = '';
         _probability = 0.0;
         // Handle the error here if needed
@@ -58,7 +65,7 @@ final TextEditingController _controller = TextEditingController();
       body: Column(
         children: [
           TopHomePage(
-            icon: Icons.person, 
+            icon: Icons.person,
             title: 'Detección de Género',
             topHeight: 200.0,
             appBarColor: _appBarColor,
@@ -89,13 +96,15 @@ final TextEditingController _controller = TextEditingController();
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16), // Ajusta la altura del botón
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
                         child: const Text('Detectar Género'),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    if (_gender.isNotEmpty)
+                    if (_isLoading)
+                      const CircularProgressIndicator(),
+                    if (!_isLoading && _gender.isNotEmpty)
                       Card(
                         elevation: 4.0,
                         margin: const EdgeInsets.only(top: 20),

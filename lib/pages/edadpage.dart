@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../utils/edadimagesutil.dart';
-
 import '../apiservices/edadapiservice.dart';
 import '../widgets/tophomepage.dart';
 
@@ -12,7 +11,6 @@ class EdadPage extends StatefulWidget {
 }
 
 class _EdadPageState extends State<EdadPage> {
-
   final TextEditingController _controller = TextEditingController();
   final EdadApiService _edadApiService = EdadApiService();
 
@@ -22,8 +20,16 @@ class _EdadPageState extends State<EdadPage> {
   String _gender = '';
   String _ageCategory = '';
   int _age = 0;
+  bool _isLoading = false;
 
   Future<void> _fetchAge(String name) async {
+    setState(() {
+      _isLoading = true;
+      _ageCategory = '';
+      _gender = '';
+      _age = 0;
+    });
+
     try {
       final ageData = await _edadApiService.fetchAge(name);
       setState(() {
@@ -40,9 +46,11 @@ class _EdadPageState extends State<EdadPage> {
       final genderData = await _edadApiService.fetchGender(name);
       setState(() {
         _gender = genderData['gender'];
+        _isLoading = false;
       });
     } catch (e) {
       setState(() {
+        _isLoading = false;
         _ageCategory = '';
         _gender = '';
         _age = 0;
@@ -60,7 +68,7 @@ class _EdadPageState extends State<EdadPage> {
       body: Column(
         children: [
           TopHomePage(
-            icon: Icons.cake, 
+            icon: Icons.cake,
             title: 'Detección de Edad',
             topHeight: 175.0,
             appBarColor: _appBarColor,
@@ -90,13 +98,15 @@ class _EdadPageState extends State<EdadPage> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16), // Ajusta la altura del botón
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
                         child: const Text('Detectar Edad'),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    if (_gender.isNotEmpty && _ageCategory.isNotEmpty)
+                    if (_isLoading)
+                      const CircularProgressIndicator(),
+                    if (!_isLoading && _gender.isNotEmpty && _ageCategory.isNotEmpty)
                       Card(
                         elevation: 4.0,
                         margin: const EdgeInsets.only(top: 20),
