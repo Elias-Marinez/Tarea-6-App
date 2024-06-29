@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tarea6app/apiservices/generoapiservice.dart';
+import 'package:tarea6app/utils/tophomecontent.dart';
 
 import '../widgets/tophomepage.dart';
 
@@ -7,10 +8,10 @@ class GeneroPage extends StatefulWidget {
   const GeneroPage({super.key});
 
   @override
-  _GeneroPageState createState() => _GeneroPageState();
+  GeneroPageState createState() => GeneroPageState();
 }
 
-class _GeneroPageState extends State<GeneroPage> {
+class GeneroPageState extends State<GeneroPage> {
   final TextEditingController _controller = TextEditingController();
 
   Color _appBarColor = Colors.orange;
@@ -65,11 +66,11 @@ class _GeneroPageState extends State<GeneroPage> {
       body: Column(
         children: [
           TopHomePage(
-            icon: Icons.person,
-            title: 'Detección de Género',
-            topHeight: 200.0,
             appBarColor: _appBarColor,
             backgroundColor: _backgroundColor,
+            contentWidget: const TopHomeContent(icon: Icons.person, title: 'Detección de Género',),
+            topHeight: 200.0,
+
           ),
           Expanded(
             child: Container(

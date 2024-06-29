@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tarea6app/utils/tophomecontent.dart';
 import '../utils/edadimagesutil.dart';
 import '../apiservices/edadapiservice.dart';
 import '../widgets/tophomepage.dart';
@@ -7,10 +8,10 @@ class EdadPage extends StatefulWidget {
   const EdadPage({super.key});
 
   @override
-  _EdadPageState createState() => _EdadPageState();
+  EdadPageState createState() => EdadPageState();
 }
 
-class _EdadPageState extends State<EdadPage> {
+class EdadPageState extends State<EdadPage> {
   final TextEditingController _controller = TextEditingController();
   final EdadApiService _edadApiService = EdadApiService();
 
@@ -68,11 +69,10 @@ class _EdadPageState extends State<EdadPage> {
       body: Column(
         children: [
           TopHomePage(
-            icon: Icons.cake,
-            title: 'Detección de Edad',
-            topHeight: 175.0,
             appBarColor: _appBarColor,
             backgroundColor: _backgroundColor,
+            contentWidget: const TopHomeContent(icon: Icons.cake, title: 'Detección de Edad',),
+            topHeight: 175.0,
           ),
           Expanded(
             child: Container(

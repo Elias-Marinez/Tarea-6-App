@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tarea6app/utils/tophomecontent.dart';
 import '../apiservices/universidadapiservice.dart';
 import '../utils/universidadlist.dart';
 import '../widgets/tophomepage.dart';
@@ -16,32 +17,9 @@ class _UniversidadesPageState extends State<UniversidadesPage> {
   final Color _backgroundColor = Colors.purple[100]!;
 
   Future<List<dynamic>>? _futureUniversities;
-  bool _isLoading = false;
-  String _message = '';
+  bool isLoading = false;
+  String message = '';
 
-  Future<void> _fetchUniversities(String country) async {
-    setState(() {
-      _isLoading = true;
-      _message = '';
-    });
-
-    try {
-      final universities = await UniversidadApiService.fetchUniversities(country);
-      setState(() {
-        _isLoading = false;
-        if (universities.isEmpty) {
-          _message = 'No se encontraron universidades para el país ingresado.';
-        } else {
-          _futureUniversities = Future.value(universities);
-        }
-      });
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _message = 'Error al cargar las universidades.';
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +31,10 @@ class _UniversidadesPageState extends State<UniversidadesPage> {
       body: Column(
         children: [
           TopHomePage(
-            icon: Icons.school,
-            title: 'Universidades',
-            topHeight: 175.0,
             appBarColor: _appBarColor,
             backgroundColor: _backgroundColor,
+            contentWidget: const TopHomeContent(icon: Icons.school, title: 'Universidades'),
+            topHeight: 175.0,
           ),
           Expanded(
             child: Container(
@@ -92,16 +69,16 @@ class _UniversidadesPageState extends State<UniversidadesPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    if (_isLoading)
+                    if (isLoading)
                       const Column(
                         children: [
                           SizedBox(height: 60),
                           CircularProgressIndicator(),
                         ],
                       ),
-                    if (_message.isNotEmpty)
+                    if (message.isNotEmpty)
                       Text(
-                        _message,
+                        message,
                         style: const TextStyle(color: Colors.red),
                       ),
                     if (_futureUniversities != null)

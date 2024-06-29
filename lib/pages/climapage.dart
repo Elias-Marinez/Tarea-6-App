@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:tarea6app/utils/tophomecontent.dart';
 import '../apiservices/climaapiservice.dart';
 import '../widgets/tophomepage.dart';
 
@@ -7,10 +7,10 @@ class ClimaPage extends StatefulWidget {
   const ClimaPage({super.key});
 
   @override
-  _ClimaPageState createState() => _ClimaPageState();
+  ClimaPageState createState() => ClimaPageState();
 }
 
-class _ClimaPageState extends State<ClimaPage> {
+class ClimaPageState extends State<ClimaPage> {
   late Color _appBarColor = Colors.blue; 
   late Color _backgroundColor = Colors.blue[100]!; 
   late IconData _weatherIcon = Icons.wb_sunny; 
@@ -36,7 +36,7 @@ class _ClimaPageState extends State<ClimaPage> {
         _weatherIconUrl = 'https:${weatherData['current']['condition']['icon']}';
         _isDay = weatherData['current']['is_day'] == 1;
         _appBarColor = _isDay ? Colors.blue : const Color.fromARGB(255, 31, 39, 88);
-        _backgroundColor = _isDay ? Colors.blue[100]! : const Color.fromARGB(255, 14, 37, 62)!;
+        _backgroundColor = _isDay ? Colors.blue[100]! : const Color.fromARGB(255, 14, 37, 62);
         _weatherIcon = _isDay ? Icons.wb_sunny : Icons.nightlight_round;
       });
     } catch (e) {
@@ -56,11 +56,10 @@ class _ClimaPageState extends State<ClimaPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TopHomePage(
-            icon: _weatherIcon,
-            title: 'Clima en RD',
-            topHeight: 200.0,
             appBarColor: _appBarColor,
             backgroundColor: _backgroundColor,
+            contentWidget: TopHomeContent(icon: _weatherIcon, title: 'Clima en RD',),
+            topHeight: 200.0,
           ),
           Expanded(
             child: Container(
@@ -85,9 +84,18 @@ class _ClimaPageState extends State<ClimaPage> {
                           width: 30,
                           fit: BoxFit.contain,
                         ),
-                      Text(
-                        ' $_weatherCondition',
-                        style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic, color: _isDay ? const Color.fromARGB(255, 49, 47, 47) : Colors.white),
+                      const SizedBox(width: 5), // Ajusta el espacio entre el icono y el texto
+                      Expanded(
+                        child: Text(
+                          ' $_weatherCondition',
+                          maxLines: 1, // Limita a una línea
+                          overflow: TextOverflow.ellipsis, // Muestra puntos suspensivos al final si el texto se desborda
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontStyle: FontStyle.italic,
+                            color: _isDay ? const Color.fromARGB(255, 49, 47, 47) : Colors.white,
+                          ),
+                        ),
                       ),
                     ],
                   ),

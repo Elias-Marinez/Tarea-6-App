@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tarea6app/utils/tophomecontent.dart';
 import '../apiservices/noticiasapiservice.dart';
 import '../utils/urllauncherutil.dart';
-import '../widgets/tophomepagewithimage.dart';
+import '../widgets/tophomepage.dart';
 
 class NoticiasPage extends StatefulWidget {
   const NoticiasPage({super.key});
@@ -31,11 +32,11 @@ class _NoticiasPageState extends State<NoticiasPage> {
       ),
       body: Column(
         children: [
-          TopHomePageWithImage(
-            topHeight: 230.0,
+          TopHomePage(
             appBarColor: _appBarColor,
             backgroundColor: _backgroundColor, 
-            imagePath: 'https://upload.wikimedia.org/wikipedia/commons/f/f3/Logo_MESCyT_%28RD%29.png',
+            contentWidget: const TopHomeContent(imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/f3/Logo_MESCyT_%28RD%29.png',),
+            topHeight: 250.0,
           ),
           Expanded(
             child: Container(
