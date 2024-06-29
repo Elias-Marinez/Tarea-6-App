@@ -4,7 +4,7 @@ import '../apiservices/climaapiservice.dart';
 import '../widgets/tophomepage.dart';
 
 class ClimaPage extends StatefulWidget {
-  ClimaPage({Key? key}) : super(key: key);
+  const ClimaPage({super.key});
 
   @override
   _ClimaPageState createState() => _ClimaPageState();

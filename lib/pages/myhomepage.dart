@@ -103,7 +103,7 @@ class MyHomePage extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              routerwidget(UniversidadesPage()),
+                              routerwidget(const UniversidadesPage()),
                             );
                           },
                         ),
@@ -114,18 +114,18 @@ class MyHomePage extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              routerwidget(ClimaPage()),
+                              routerwidget(const ClimaPage()),
                             );
                           },
                         ),
                         CustomButton(
                           label: 'Noticias',
-                          icon: Icons.article,
+                          icon: Icons.newspaper,
                           color: Colors.red,
                           onPressed: () {
                             Navigator.push(
                               context,
-                              routerwidget(NoticiasPage()),
+                              routerwidget(const NoticiasPage()),
                             );
                           },
                         ),
